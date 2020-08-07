@@ -12,6 +12,7 @@ import io.github.gutyerrez.economy.command.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -24,7 +25,7 @@ public class CurrencyCommand extends CustomCommand {
     public CurrencyCommand(Currency currency) {
         super(
                 currency.getCommandName(),
-                CommandRestriction.IN_GAME,
+                CommandRestriction.CONSOLE_AND_IN_GAME,
                 currency.getCommandAliases()
         );
 
@@ -39,6 +40,10 @@ public class CurrencyCommand extends CustomCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
+        if (sender instanceof ConsoleCommandSender) {
+            return;
+        }
+
         if (args.length == 1) {
             String targetName = args[0];
             User targetUser = CoreProvider.Cache.Local.USERS.provide().get(targetName);

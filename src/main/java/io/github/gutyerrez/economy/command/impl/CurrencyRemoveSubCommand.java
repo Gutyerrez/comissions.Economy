@@ -20,7 +20,10 @@ public class CurrencyRemoveSubCommand extends CurrencySubCommand {
     private final Currency currency;
 
     public CurrencyRemoveSubCommand(Currency currency) {
-        super("remove", CommandRestriction.IN_GAME);
+        super(
+                "remove",
+                CommandRestriction.CONSOLE_AND_IN_GAME
+        );
 
         this.currency = currency;
 

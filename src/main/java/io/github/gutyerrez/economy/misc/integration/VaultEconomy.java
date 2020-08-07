@@ -76,28 +76,36 @@ public class VaultEconomy implements Economy {
     public double getBalance(String s) {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        return EconomyAPI.get(user, Currency.COINS);
+        Double value = EconomyAPI.get(user, Currency.COINS);
+
+        return value == null ? 0.0 : value;
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        return EconomyAPI.get(user, Currency.COINS);
+        Double value = EconomyAPI.get(user, Currency.COINS);
+
+        return value == null ? 0.0 : value;
     }
 
     @Override
     public double getBalance(String s, String s1) {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        return EconomyAPI.get(user, Currency.COINS);
+        Double value = EconomyAPI.get(user, Currency.COINS);
+
+        return value == null ? 0.0 : value;
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer, String s) {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        return EconomyAPI.get(user, Currency.COINS);
+        Double value = EconomyAPI.get(user, Currency.COINS);
+
+        return value == null ? 0.0 : value;
     }
 
     @Override

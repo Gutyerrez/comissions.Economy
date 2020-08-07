@@ -27,7 +27,10 @@ public class CurrencyTopSubCommand extends CurrencySubCommand {
     private Long cooldown;
 
     public CurrencyTopSubCommand(Currency currency) {
-        super("top", CommandRestriction.CONSOLE_AND_IN_GAME);
+        super(
+                "top",
+                CommandRestriction.CONSOLE_AND_IN_GAME
+        );
 
         this.currency = currency;
     }

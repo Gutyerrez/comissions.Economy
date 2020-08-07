@@ -18,7 +18,10 @@ public class CurrencySetSubCommand extends CurrencySubCommand {
     private final Currency currency;
 
     public CurrencySetSubCommand(Currency currency) {
-        super("set", CommandRestriction.IN_GAME);
+        super(
+                "set",
+                CommandRestriction.CONSOLE_AND_IN_GAME
+        );
 
         this.currency = currency;
 

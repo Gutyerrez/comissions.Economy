@@ -25,7 +25,11 @@ public class CurrencySendSubCommand extends CustomCommand {
     private final Currency currency;
 
     public CurrencySendSubCommand(Currency currency) {
-        super("pay", CommandRestriction.IN_GAME, "enviar");
+        super(
+                "pay",
+                CommandRestriction.IN_GAME,
+                "enviar"
+        );
 
         this.currency = currency;
 

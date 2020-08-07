@@ -20,7 +20,7 @@ public class CurrencyAddSubCommand extends CurrencySubCommand {
     public CurrencyAddSubCommand(Currency currency) {
         super(
                 "add",
-                CommandRestriction.IN_GAME,
+                CommandRestriction.CONSOLE_AND_IN_GAME,
                 "give"
         );
 
