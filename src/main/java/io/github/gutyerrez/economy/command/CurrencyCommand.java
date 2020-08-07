@@ -2,11 +2,15 @@ package io.github.gutyerrez.economy.command;
 
 import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
+import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
+import io.github.gutyerrez.economy.EconomyPlugin;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.impl.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -46,11 +50,25 @@ public class CurrencyCommand extends CustomCommand {
 
             Double coins = EconomyProvider.Repositories.ECONOMY.provide().get(targetUser, this.currency);
 
-            sender.sendMessage(String.format(
-                    "§aSaldo de §f%s§a: §f%s",
-                    targetUser.getName(),
-                    this.currency.format(coins)
-            ));
+            if (coins == null) {
+                sender.sendMessage("§cEste usuário não existe");
+                return;
+            }
+
+            Bukkit.getScheduler().runTaskAsynchronously(
+                    EconomyPlugin.getInstance(),
+                    () -> {
+                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+
+                        sender.sendMessage(String.format(
+                                "§eO saldo de §f%s§e é §f%s",
+                                ChatColor.translateAlternateColorCodes(
+                                        '&',
+                                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", targetName)
+                                ) + offlinePlayer.getName(),
+                                this.currency.format(coins)
+                        ));
+                    });
             return;
         }
 
@@ -59,6 +77,6 @@ public class CurrencyCommand extends CustomCommand {
 
         Double coins = EconomyProvider.Repositories.ECONOMY.provide().get(user, this.currency);
 
-        sender.sendMessage("§aSaldo: §f" + this.currency.format(coins));
+        sender.sendMessage("§eSeu saldo é §f" + this.currency.format(coins));
     }
 }

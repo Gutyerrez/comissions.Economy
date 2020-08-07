@@ -30,7 +30,7 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Void> {
     public PreparedStatementCreator getPreparedStatementCreator() {
         return connection -> {
             String query = String.format(
-                    "INSERT INTO `%s` (`username`,`value`) VALUES (?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);",
+                    "INSERT INTO `%s` (`username`,`value`) VALUES (?,?) ON DUPLICATE KEY UPDATE `value`=`value` + ?;",
                     this.currency.getTableName()
             );
 
@@ -41,6 +41,7 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Void> {
 
             preparedStatement.setString(1, this.user.getName().toLowerCase());
             preparedStatement.setDouble(2, this.value);
+            preparedStatement.setDouble(3, this.value);
 
             return preparedStatement;
         };

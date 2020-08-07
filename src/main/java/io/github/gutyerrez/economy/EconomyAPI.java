@@ -7,6 +7,8 @@ import io.github.gutyerrez.core.shared.user.User;
  */
 public class EconomyAPI {
 
+    public static String MAGNATA_USERNAME = null;
+
     public static void add(User user, Currency currency, Double value) {
         EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);
     }
@@ -26,6 +28,11 @@ public class EconomyAPI {
 
     public static void set(User user, Currency currency, Double value) {
         Double balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
+
+        if (balance == null) {
+            balance = 0.0;
+        }
+
         double newValue = balance < value ? (value - balance) : -(balance - value);
         EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, newValue);
     }

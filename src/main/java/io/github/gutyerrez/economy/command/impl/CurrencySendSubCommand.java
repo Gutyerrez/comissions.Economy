@@ -4,11 +4,15 @@ import com.google.common.primitives.Doubles;
 import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.Argument;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
+import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
+import io.github.gutyerrez.economy.EconomyPlugin;
 import io.github.gutyerrez.economy.EconomyProvider;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -66,10 +70,32 @@ public class CurrencySendSubCommand extends CustomCommand {
         EconomyAPI.remove(user, this.currency, amount);
         EconomyAPI.add(targetUser, this.currency, amount);
 
-        sender.sendMessage(String.format(
-                "§aVocê enviou §f%s §apara §f%s§a.\n ",
-                this.currency.format(amount),
-                targetUser.getName()
-        ));
+        Bukkit.getScheduler().runTaskAsynchronously(
+                EconomyPlugin.getInstance(),
+                () -> {
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+
+                    sender.sendMessage(String.format(
+                            "§eVocê enviou §f%s §epara §f%s§e.\n ",
+                            this.currency.format(amount),
+                            ChatColor.translateAlternateColorCodes(
+                                    '&',
+                                    EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", targetName)
+                            ) + offlinePlayer.getName()
+                    ));
+
+                    Player targetPlayer = offlinePlayer.getPlayer();
+
+                    if (targetPlayer != null) {
+                        sender.sendMessage(String.format(
+                                "§eVocê recebeu §f%s §ede §f%s§e.\n ",
+                                this.currency.format(amount),
+                                ChatColor.translateAlternateColorCodes(
+                                        '&',
+                                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", sender.getName())
+                                ) + sender.getName()
+                        ));
+                    }
+                });
     }
 }

@@ -20,7 +20,7 @@ public class SelectCurrencySpec extends SelectSqlSpec<Double> {
 
     @Override
     public ResultSetExtractor<Double> getResultSetExtractor() {
-        return resultSet -> resultSet.next() ? resultSet.getDouble("value") : 0;
+        return resultSet -> resultSet.next() ? resultSet.getDouble("value") : null;
     }
 
     @Override

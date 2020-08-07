@@ -18,9 +18,9 @@ public enum Currency {
             new String[]{
                     "coins"
             },
-            "coin",
-            "coins",
-            ChatColor.GREEN
+            "Coin",
+            "Coins",
+            ChatColor.YELLOW
     );
 
     private final String tableName;
@@ -31,7 +31,7 @@ public enum Currency {
     private final ChatColor color;
 
     public String format(Double v) {
-        return NumberUtils.format(v);
+        return String.format("%s %s", NumberUtils.format(v), (v > 1 ? this.plural : this.singular));
     }
 
 }
