@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>gutyerrez.github.io</groupId>
+        <artifactId>super</artifactId>
+        <version>0.1-ALPHA</version>
+    </parent>
+
+    <artifactId>currency</artifactId>
+
+    <name>Economy</name>
+
+    <dependencies>
+        <!-- spigot api -->
+        <dependency>
+            <groupId>org.github.paperspigot</groupId>
+            <artifactId>paperspigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+        </dependency>
+        <!-- core -->
+        <dependency>
+            <groupId>gutyerrez.github.io</groupId>
+            <artifactId>core-spigot</artifactId>
+            <version>0.1-ALPHA</version>
+        </dependency>
+        <!-- vault -->
+        <dependency>
+            <groupId>net.milkbow</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+    </dependencies>
+</project>

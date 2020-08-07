@@ -1,0 +1,6 @@
+name: Economy
+main: io.github.gutyerrez.economy.EconomyPlugin
+version: 0.1-ALPHA
+author: Gutyerrez
+depend:
+  - Vault
