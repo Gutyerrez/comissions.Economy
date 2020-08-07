@@ -8,26 +8,23 @@ import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
 
 import java.util.LinkedHashMap;
-import java.util.UUID;
 
 /**
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<UUID, Double>> {
+public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, Double>> {
 
     private final Currency currency;
 
     @Override
-    public ResultSetExtractor<LinkedHashMap<UUID, Double>> getResultSetExtractor() {
+    public ResultSetExtractor<LinkedHashMap<String, Double>> getResultSetExtractor() {
         return resultSet -> {
-            LinkedHashMap<UUID, Double> out = Maps.newLinkedHashMap();
+            LinkedHashMap<String, Double> out = Maps.newLinkedHashMap();
 
             while (resultSet.next()) {
                 out.put(
-                        UUID.fromString(
-                                resultSet.getString("unique_id")
-                        ),
+                        resultSet.getString("username"),
                         resultSet.getDouble("value")
                 );
             }

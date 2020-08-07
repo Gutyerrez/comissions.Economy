@@ -81,7 +81,7 @@ public class VaultEconomy implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getUniqueId());
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
         return EconomyAPI.get(user, Currency.COINS);
     }
@@ -95,7 +95,7 @@ public class VaultEconomy implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer, String s) {
-        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getUniqueId());
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
         return EconomyAPI.get(user, Currency.COINS);
     }
@@ -122,42 +122,82 @@ public class VaultEconomy implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(s);
+
+        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+            return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
+
+        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+            return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String s, String s1, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(s);
+
+        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+            return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
+
+        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+            return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(s);
+
+        EconomyAPI.add(user, Currency.COINS, v);
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
+
+        EconomyAPI.add(user, Currency.COINS, v);
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
     public EconomyResponse depositPlayer(String s, String s1, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(s);
+
+        EconomyAPI.add(user, Currency.COINS, v);
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        return null;
+        User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
+
+        EconomyAPI.add(user, Currency.COINS, v);
+
+        return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override

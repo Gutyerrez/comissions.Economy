@@ -37,7 +37,7 @@ public class EconomyRepository extends MysqlRepository {
         return this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
     }
 
-    public LinkedHashMap<UUID, Double> fetchTop(Currency currency) {
+    public LinkedHashMap<String, Double> fetchTop(Currency currency) {
         return this.query(new SelectCurrencyTopSpec(currency));
     }
 

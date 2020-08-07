@@ -32,8 +32,7 @@ public class CurrencySetSubCommand extends CurrencySubCommand {
             return;
         }
 
-        String targetName = args[0];
-        User targetUser = CoreProvider.Cache.Local.USERS.provide().get(targetName);
+        User targetUser = CoreProvider.Cache.Local.USERS.provide().get(args[0]);
 
         if (targetUser == null) {
             sender.sendMessage("§cEste usuário não existe.");
@@ -47,7 +46,7 @@ public class CurrencySetSubCommand extends CurrencySubCommand {
             return;
         }
 
-        EconomyAPI.set(targetUser, currency, amount);
+        EconomyAPI.set(targetUser, this.currency, amount);
 
         sender.sendMessage(String.format(
                 "§aVocê definiu o saldo de §f%s §apara §f%s§a.",

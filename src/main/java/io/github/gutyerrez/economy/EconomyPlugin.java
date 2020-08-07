@@ -26,8 +26,6 @@ public class EconomyPlugin extends CustomPlugin {
 
         CommandRegistry.registerCommand(new CurrencyCommand(Currency.COINS));
 
-
-
         this.getServer().getServicesManager().register(
                 Economy.class,
                 new VaultEconomy(),

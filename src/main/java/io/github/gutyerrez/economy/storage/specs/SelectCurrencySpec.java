@@ -27,13 +27,13 @@ public class SelectCurrencySpec extends SelectSqlSpec<Double> {
     public PreparedStatementCreator getPreparedStatementCreator() {
         return connection -> {
             String query = String.format(
-                    "SELECT * FROM `%s` WHERE `unique_id`=?;",
+                    "SELECT * FROM `%s` WHERE `username`=?;",
                     currency.getTableName()
             );
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1, this.user.getUniqueId().toString());
+            preparedStatement.setString(1, this.user.getName().toLowerCase());
 
             return preparedStatement;
         };
