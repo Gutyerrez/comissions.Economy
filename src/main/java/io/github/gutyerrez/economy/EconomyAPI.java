@@ -7,7 +7,7 @@ import io.github.gutyerrez.core.shared.user.User;
  */
 public class EconomyAPI {
 
-    public static String MAGNATA_USERNAME = null;
+    public static String MAGNATA_USERNAME = "";
 
     public static void add(User user, Currency currency, Double value) {
         EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);

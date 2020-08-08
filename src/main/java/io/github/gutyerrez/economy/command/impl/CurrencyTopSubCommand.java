@@ -1,5 +1,6 @@
 package io.github.gutyerrez.economy.command.impl;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
 import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
@@ -13,8 +14,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author SrGutyerrez
@@ -44,7 +47,7 @@ public class CurrencyTopSubCommand extends CurrencySubCommand {
             this.cooldown = System.currentTimeMillis() + 5000L;
 
             if (!this.top.isEmpty()) {
-                EconomyAPI.MAGNATA_USERNAME = this.top.keySet().toArray(new String[this.top.size()])[0];
+                EconomyAPI.MAGNATA_USERNAME = ImmutableList.copyOf(this.top.keySet()).get(0);
             }
         }
 
@@ -66,7 +69,7 @@ public class CurrencyTopSubCommand extends CurrencySubCommand {
                         message.append(String.format(
                                 "  §f%sº §7%s: §7%s\n",
                                 count.getAndIncrement(),
-                                (count.get() == 1 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
+                                (count.get() == 2 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
                                         '&',
                                         EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer.getName())
                                 ) + offlinePlayer.getName(),
