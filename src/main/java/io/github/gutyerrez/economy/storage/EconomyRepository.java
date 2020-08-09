@@ -1,6 +1,6 @@
 package io.github.gutyerrez.economy.storage;
 
-import io.github.gutyerrez.core.shared.contracts.storages.repositories.MysqlRepository;
+import io.github.gutyerrez.core.shared.storage.repositories.MysqlRepository;
 import io.github.gutyerrez.core.shared.providers.MysqlDatabaseProvider;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;

@@ -1,7 +1,7 @@
 package io.github.gutyerrez.economy.storage.specs;
 
-import io.github.gutyerrez.core.shared.contracts.storages.repositories.specs.InsertSqlSpec;
-import io.github.gutyerrez.core.shared.contracts.storages.repositories.specs.PreparedStatementCreator;
+import io.github.gutyerrez.core.shared.storage.repositories.specs.InsertSqlSpec;
+import io.github.gutyerrez.core.shared.storage.repositories.specs.PreparedStatementCreator;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
