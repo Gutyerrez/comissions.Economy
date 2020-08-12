@@ -15,15 +15,19 @@ import java.sql.Statement;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Void> {
+public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double> {
 
     private final User user;
     private final Currency currency;
     private final Double value;
 
     @Override
-    public Void parser(int affectedRows, ResultSet generatedKeys) throws SQLException {
-        return null;
+    public Double parser(int affectedRows, ResultSet keyHolder) throws SQLException {
+        if (affectedRows != 1) {
+            throw new NullPointerException("Cannot retrieve the new value");
+        }
+
+        return keyHolder.getDouble("value");
     }
 
     @Override

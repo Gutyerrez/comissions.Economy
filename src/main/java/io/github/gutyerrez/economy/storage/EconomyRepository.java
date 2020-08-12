@@ -33,7 +33,7 @@ public class EconomyRepository extends MysqlRepository {
         return query(new SelectCurrencySpec(user, currency));
     }
 
-    public Void update(User user, Currency currency, Double value) {
+    public Double update(User user, Currency currency, Double value) {
         return this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
     }
 
