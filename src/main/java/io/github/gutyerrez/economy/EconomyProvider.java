@@ -4,7 +4,7 @@ import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.providers.LocalCacheProvider;
 import io.github.gutyerrez.core.shared.providers.MysqlRepositoryProvider;
 import io.github.gutyerrez.economy.cache.local.CurrencyLocalCache;
-import io.github.gutyerrez.economy.misc.hooks.ChatHook;
+import io.github.gutyerrez.economy.misc.hooks.LuckPermsHook;
 import io.github.gutyerrez.economy.storage.EconomyRepository;
 
 /**
@@ -25,7 +25,7 @@ public class EconomyProvider
     public static class Hooks
     {
 
-        public static ChatHook<?> CHAT = new ChatHook<>();
+        public static LuckPermsHook<?> CHAT = new LuckPermsHook<>();
 
     }
 

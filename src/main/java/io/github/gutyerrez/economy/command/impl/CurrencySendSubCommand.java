@@ -69,18 +69,20 @@ public class CurrencySendSubCommand extends CustomCommand
                 EconomyAPI.remove(user, currency, amount);
                 EconomyAPI.add(targetUser, currency, amount);
 
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+                net.luckperms.api.model.user.User _targetUser = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(targetName);
 
                 sender.sendMessage(String.format(
                         "§eVocê enviou §f%s §epara §f%s§e.",
                         currency.format(amount),
                         ChatColor.translateAlternateColorCodes(
                                 '&',
-                                EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
-                        ) + offlinePlayer.getName()
+                                _targetUser.getCachedData().getMetaData().getPrefix()
+                        ) + _targetUser.getUsername()
                 ));
 
-                Player targetPlayer = offlinePlayer.getPlayer();
+                net.luckperms.api.model.user.User _user = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(sender.getName());
+
+                Player targetPlayer = Bukkit.getPlayerExact(targetName);
 
                 if (targetPlayer != null) {
                     targetPlayer.sendMessage(String.format(
@@ -88,7 +90,7 @@ public class CurrencySendSubCommand extends CustomCommand
                             currency.format(amount),
                             ChatColor.translateAlternateColorCodes(
                                     '&',
-                                    EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", (Player) sender)
+                                    _user.getCachedData().getMetaData().getPrefix()
                             ) + sender.getName()
                     ));
                 }

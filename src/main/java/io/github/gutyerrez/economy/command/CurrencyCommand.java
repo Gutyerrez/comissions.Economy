@@ -9,8 +9,6 @@ import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.impl.*;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -65,14 +63,14 @@ public class CurrencyCommand extends CustomCommand
                 return;
             }
 
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+            net.luckperms.api.model.user.User _targetUser = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(targetName);
 
             sender.sendMessage(String.format(
                     "§aCoins de §f%s: §7%s.",
                     ChatColor.translateAlternateColorCodes(
                             '&',
-                            EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
-                    ) + offlinePlayer.getName(),
+                            _targetUser.getCachedData().getMetaData().getPrefix()
+                    ) + _targetUser.getUsername(),
                     this.currency.format(coins)
             ));
             return;

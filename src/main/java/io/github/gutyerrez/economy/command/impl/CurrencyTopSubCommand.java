@@ -8,6 +8,7 @@ import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.CurrencySubCommand;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -62,15 +63,15 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
         AtomicInteger count = new AtomicInteger(1);
 
         this.top.forEach((username, value) -> {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
+            User user = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(username);
 
             message.append(String.format(
                     "  §a%sº §7%s §7%s\n",
                     count.getAndIncrement(),
                     (count.get() == 2 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
                             '&',
-                            EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
-                    ) + offlinePlayer.getName(),
+                            user.getCachedData().getMetaData().getPrefix()
+                    ) + user.getUsername(),
                     this.currency.format(value)
             ));
         });
