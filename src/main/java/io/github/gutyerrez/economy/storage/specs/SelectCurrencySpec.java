@@ -23,7 +23,9 @@ public class SelectCurrencySpec extends SelectSqlSpec<BigDecimal>
     @Override
     public ResultSetExtractor<BigDecimal> getResultSetExtractor()
     {
-        return resultSet -> resultSet.next() ? resultSet.getBigDecimal("value") : null;
+        return resultSet -> new BigDecimal(
+                resultSet.next() ? resultSet.getString("value") : "0"
+        );
     }
 
     @Override

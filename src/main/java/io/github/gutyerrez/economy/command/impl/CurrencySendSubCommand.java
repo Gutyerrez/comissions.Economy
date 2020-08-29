@@ -72,7 +72,7 @@ public class CurrencySendSubCommand extends CustomCommand
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
                 sender.sendMessage(String.format(
-                        "§eVocê enviou §f%s §epara §f%s§e.\n ",
+                        "§eVocê enviou §f%s §epara §f%s§e.",
                         currency.format(amount),
                         ChatColor.translateAlternateColorCodes(
                                 '&',
@@ -83,8 +83,8 @@ public class CurrencySendSubCommand extends CustomCommand
                 Player targetPlayer = offlinePlayer.getPlayer();
 
                 if (targetPlayer != null) {
-                    sender.sendMessage(String.format(
-                            "§eVocê recebeu §f%s §ede §f%s§e.\n ",
+                    targetPlayer.sendMessage(String.format(
+                            "§eVocê recebeu §f%s §ede §f%s§e.",
                             currency.format(amount),
                             ChatColor.translateAlternateColorCodes(
                                     '&',

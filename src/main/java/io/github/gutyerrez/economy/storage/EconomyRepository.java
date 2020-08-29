@@ -38,9 +38,9 @@ public class EconomyRepository extends MysqlRepository
         return query(new SelectCurrencySpec(user, currency));
     }
 
-    public BigDecimal update(User user, Currency currency, BigDecimal value)
+    public void update(User user, Currency currency, BigDecimal value)
     {
-        return this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
+        this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
     }
 
     public LinkedHashMap<String, BigDecimal> fetchTop(Currency currency)

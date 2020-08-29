@@ -16,7 +16,7 @@ import java.sql.Statement;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
+public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Void>
 {
 
     private final User user;
@@ -24,13 +24,9 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
     private final BigDecimal value;
 
     @Override
-    public BigDecimal parser(int affectedRows, ResultSet keyHolder) throws SQLException
+    public Void parser(int affectedRows, ResultSet keyHolder) throws SQLException
     {
-        if (affectedRows == 0) {
-            return this.value;
-        }
-
-        return keyHolder.getBigDecimal("value");
+        return null;
     }
 
     @Override
@@ -48,7 +44,7 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
             );
 
             preparedStatement.setString(1, this.user.getName().toLowerCase());
-            preparedStatement.setBigDecimal(2, this.value);
+            preparedStatement.setString(2, this.value.toString());
 
             return preparedStatement;
         };

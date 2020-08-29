@@ -22,15 +22,29 @@ public class EconomyAPI
     {
         BigDecimal balance = EconomyAPI.get(user, currency);
 
-        BigDecimal newValue = EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.add(value));
-        EconomyProvider.Cache.Local.CURRENCY.provide().add(
-                user.getUniqueId(),
+        EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.add(value));
+        EconomyProvider.Cache.Local.CURRENCY.provide().add(user.getUniqueId(), currency, balance.add(value));
+
+        Player player = Bukkit.getPlayerExact(user.getName());
+
+        CurrencyChangeEvent currencyChangeEvent = new CurrencyChangeEvent(
+                player,
                 currency,
-                EconomyAPI.get(
-                        user,
-                        currency
-                ).add(value)
+                balance,
+                balance.add(value)
         );
+
+        Bukkit.getPluginManager().callEvent(currencyChangeEvent);
+    }
+
+    public static boolean remove(User user, Currency currency, BigDecimal value)
+    {
+        BigDecimal balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
+
+        EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.subtract(value));
+        EconomyProvider.Cache.Local.CURRENCY.provide().add(user.getUniqueId(), currency, balance.subtract(value));
+
+        BigDecimal newValue = balance.subtract(value.compareTo(BigDecimal.ZERO) > 0 ? balance : value);
 
         Player player = Bukkit.getPlayerExact(user.getName());
 
@@ -42,65 +56,21 @@ public class EconomyAPI
         );
 
         Bukkit.getPluginManager().callEvent(currencyChangeEvent);
-    }
-
-    public static boolean remove(User user, Currency currency, BigDecimal value)
-    {
-        BigDecimal balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
-
-        if (balance != null && balance.compareTo(BigDecimal.ZERO) > 0 && balance.compareTo(value) > 0) {
-            BigDecimal newValue = balance.subtract(value.compareTo(BigDecimal.ZERO) > 0 ? balance : value);
-
-            Player player = Bukkit.getPlayerExact(user.getName());
-
-            CurrencyChangeEvent currencyChangeEvent = new CurrencyChangeEvent(
-                    player,
-                    currency,
-                    balance,
-                    newValue
-            );
-
-            Bukkit.getPluginManager().callEvent(currencyChangeEvent);
-
-            EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.subtract(newValue));
-            EconomyProvider.Cache.Local.CURRENCY.provide().add(
-                    user.getUniqueId(),
-                    currency,
-                    EconomyAPI.get(
-                            user,
-                            currency
-                    ).subtract(newValue)
-            );
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public static void set(User user, Currency currency, BigDecimal value)
     {
-        BigDecimal balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
-
-        if (balance == null) {
-            balance = BigDecimal.ZERO;
-        }
-
-        BigDecimal newValue = balance.compareTo(value) < 0 ? (value.subtract(balance)) : balance.subtract(value);
-
-        EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, newValue);
-        EconomyProvider.Cache.Local.CURRENCY.provide().add(
-                user.getUniqueId(),
-                currency,
-                value
-        );
+        EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);
+        EconomyProvider.Cache.Local.CURRENCY.provide().add(user.getUniqueId(), currency, value);
 
         Player player = Bukkit.getPlayerExact(user.getName());
 
         CurrencyChangeEvent currencyChangeEvent = new CurrencyChangeEvent(
                 player,
                 currency,
-                balance,
-                newValue
+                BigDecimal.ZERO,
+                value
         );
 
         Bukkit.getPluginManager().callEvent(currencyChangeEvent);

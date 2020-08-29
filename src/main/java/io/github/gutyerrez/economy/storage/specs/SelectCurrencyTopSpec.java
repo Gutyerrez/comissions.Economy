@@ -28,7 +28,9 @@ public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, B
             while (resultSet.next()) {
                 out.put(
                         resultSet.getString("username"),
-                        resultSet.getBigDecimal("value")
+                        new BigDecimal(
+                                resultSet.getString("value")
+                        )
                 );
             }
 

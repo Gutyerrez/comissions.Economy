@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public abstract class EconomyExecuteAction
 {
 
-    private Boolean canBeExecuted;
+    private Boolean canBeExecuted = true;
 
     public EconomyExecuteAction(CommandSender sender, Currency currency, String[] args)
     {
@@ -34,8 +34,6 @@ public abstract class EconomyExecuteAction
 
             this.canBeExecuted = false;
         }
-
-        this.canBeExecuted = true;
 
         this.executeRaw(targetUser, currency, amount);
     }
