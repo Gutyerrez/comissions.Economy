@@ -6,6 +6,7 @@ import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
+import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyPlugin;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.impl.*;
@@ -56,7 +57,7 @@ public class CurrencyCommand extends CustomCommand
                 return;
             }
 
-            Double coins = EconomyProvider.Repositories.ECONOMY.provide().get(targetUser, this.currency);
+            Double coins = EconomyAPI.get(targetUser, this.currency);
 
             if (coins == null) {
                 sender.sendMessage("§cEste usuário não existe");
@@ -79,8 +80,9 @@ public class CurrencyCommand extends CustomCommand
         Player player = (Player) sender;
         User user = CoreProvider.Cache.Local.USERS.provide().get(player.getName());
 
-        Double coins = EconomyProvider.Repositories.ECONOMY.provide().get(user, this.currency);
+        Double coins = EconomyAPI.get(user, this.currency);
 
         sender.sendMessage("§eSeu saldo é §f" + this.currency.format(coins));
     }
+
 }

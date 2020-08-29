@@ -12,7 +12,8 @@ import org.bukkit.event.HandlerList;
  */
 @Getter
 @RequiredArgsConstructor
-public class CurrencyChangeEvent extends Event {
+public class CurrencyChangeEvent extends Event
+{
 
     @Getter
     private static HandlerList handlerList = new HandlerList();
@@ -23,7 +24,8 @@ public class CurrencyChangeEvent extends Event {
     private final Double newValue;
 
     @Override
-    public HandlerList getHandlers() {
+    public HandlerList getHandlers()
+    {
         return handlerList;
     }
 }

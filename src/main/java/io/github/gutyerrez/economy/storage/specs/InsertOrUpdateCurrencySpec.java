@@ -15,14 +15,16 @@ import java.sql.Statement;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double> {
+public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double>
+{
 
     private final User user;
     private final Currency currency;
     private final Double value;
 
     @Override
-    public Double parser(int affectedRows, ResultSet keyHolder) throws SQLException {
+    public Double parser(int affectedRows, ResultSet keyHolder) throws SQLException
+    {
         if (affectedRows != 1) {
             throw new NullPointerException("Cannot retrieve the new value");
         }
@@ -31,7 +33,8 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double> {
     }
 
     @Override
-    public PreparedStatementCreator getPreparedStatementCreator() {
+    public PreparedStatementCreator getPreparedStatementCreator()
+    {
         return connection -> {
             String query = String.format(
                     "INSERT INTO `%s` (`username`,`value`) VALUES (?,?) ON DUPLICATE KEY UPDATE `value`=`value` + ?;",
@@ -50,4 +53,5 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double> {
             return preparedStatement;
         };
     }
+
 }

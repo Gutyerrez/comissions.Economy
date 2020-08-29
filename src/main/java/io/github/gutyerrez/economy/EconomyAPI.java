@@ -1,8 +1,11 @@
 package io.github.gutyerrez.economy;
 
+import io.github.gutyerrez.core.shared.CoreProvider;
+import io.github.gutyerrez.core.shared.misc.utils.NumberUtils;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.events.CurrencyChangeEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -80,7 +83,6 @@ public class EconomyAPI
 
     public static Double get(User user, Currency currency)
     {
-//        return EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
         return EconomyProvider.Cache.Local.CURRENCY.provide().get(user.getUniqueId(), currency);
     }
 

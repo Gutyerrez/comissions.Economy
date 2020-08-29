@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum Currency {
+public enum Currency
+{
 
     COINS(
             "player_money",
@@ -30,7 +31,8 @@ public enum Currency {
     private final String plural;
     private final ChatColor color;
 
-    public String format(Double v) {
+    public String format(Double v)
+    {
         return String.format("%s %s", NumberUtils.format(v), (v > 1 ? this.plural : this.singular));
     }
 

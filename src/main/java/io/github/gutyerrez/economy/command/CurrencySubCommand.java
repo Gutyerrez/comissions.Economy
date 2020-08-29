@@ -6,9 +6,11 @@ import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 /**
  * @author SrGutyerrez
  */
-public class CurrencySubCommand extends CustomCommand {
+public class CurrencySubCommand extends CustomCommand
+{
 
-    public CurrencySubCommand(String name, CommandRestriction restriction, String... aliases) {
+    public CurrencySubCommand(String name, CommandRestriction restriction, String... aliases)
+    {
         super(name, restriction, aliases);
     }
 

@@ -13,12 +13,14 @@ import java.util.LinkedHashMap;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, Double>> {
+public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, Double>>
+{
 
     private final Currency currency;
 
     @Override
-    public ResultSetExtractor<LinkedHashMap<String, Double>> getResultSetExtractor() {
+    public ResultSetExtractor<LinkedHashMap<String, Double>> getResultSetExtractor()
+    {
         return resultSet -> {
             LinkedHashMap<String, Double> out = Maps.newLinkedHashMap();
 
@@ -34,7 +36,8 @@ public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, D
     }
 
     @Override
-    public PreparedStatementCreator getPreparedStatementCreator() {
+    public PreparedStatementCreator getPreparedStatementCreator()
+    {
         return connection -> {
             String query = String.format(
                     "SELECT * FROM `%s` ORDER BY `value` DESC LIMIT 10;",

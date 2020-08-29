@@ -15,9 +15,11 @@ import java.util.UUID;
 /**
  * @author SrGutyerrez
  */
-public class EconomyRepository extends MysqlRepository {
+public class EconomyRepository extends MysqlRepository
+{
 
-    public EconomyRepository(MysqlDatabaseProvider databaseProvider) {
+    public EconomyRepository(MysqlDatabaseProvider databaseProvider)
+    {
         super(databaseProvider);
 
         for (Currency currency : Currency.values()) {
@@ -25,19 +27,23 @@ public class EconomyRepository extends MysqlRepository {
         }
     }
 
-    private void createTable(Currency currency) {
+    private void createTable(Currency currency)
+    {
         this.query(new CreateCurrencyTableSpec(currency));
     }
 
-    public Double get(User user, Currency currency) {
+    public Double get(User user, Currency currency)
+    {
         return query(new SelectCurrencySpec(user, currency));
     }
 
-    public Double update(User user, Currency currency, Double value) {
+    public Double update(User user, Currency currency, Double value)
+    {
         return this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
     }
 
-    public LinkedHashMap<String, Double> fetchTop(Currency currency) {
+    public LinkedHashMap<String, Double> fetchTop(Currency currency)
+    {
         return this.query(new SelectCurrencyTopSpec(currency));
     }
 

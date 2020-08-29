@@ -8,10 +8,12 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 /**
  * @author SrGutyerrez
  */
-public class ChatHook<C extends Chat> extends Hook<C> {
+public class ChatHook<C extends Chat> extends Hook<C>
+{
 
     @Override
-    public C prepare() {
+    public C prepare()
+    {
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             return null;
         }

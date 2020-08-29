@@ -11,17 +11,20 @@ import org.bukkit.plugin.ServicePriority;
 /**
  * @author SrGutyerrez
  */
-public class EconomyPlugin extends CustomPlugin {
+public class EconomyPlugin extends CustomPlugin
+{
 
     @Getter
     private static EconomyPlugin instance;
 
-    public EconomyPlugin() {
+    public EconomyPlugin()
+    {
         EconomyPlugin.instance = this;
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable()
+    {
         saveDefaultConfig();
 
         EconomyProvider.prepare();
@@ -35,4 +38,5 @@ public class EconomyPlugin extends CustomPlugin {
                 ServicePriority.Highest
         );
     }
+
 }

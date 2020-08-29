@@ -13,18 +13,21 @@ import java.sql.PreparedStatement;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class SelectCurrencySpec extends SelectSqlSpec<Double> {
+public class SelectCurrencySpec extends SelectSqlSpec<Double>
+{
 
     private final User user;
     private final Currency currency;
 
     @Override
-    public ResultSetExtractor<Double> getResultSetExtractor() {
+    public ResultSetExtractor<Double> getResultSetExtractor()
+    {
         return resultSet -> resultSet.next() ? resultSet.getDouble("value") : null;
     }
 
     @Override
-    public PreparedStatementCreator getPreparedStatementCreator() {
+    public PreparedStatementCreator getPreparedStatementCreator()
+    {
         return connection -> {
             String query = String.format(
                     "SELECT * FROM `%s` WHERE `username`=?;",
@@ -38,4 +41,5 @@ public class SelectCurrencySpec extends SelectSqlSpec<Double> {
             return preparedStatement;
         };
     }
+
 }

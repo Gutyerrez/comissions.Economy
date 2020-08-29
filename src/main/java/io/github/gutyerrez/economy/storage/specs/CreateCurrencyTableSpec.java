@@ -10,17 +10,20 @@ import lombok.RequiredArgsConstructor;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class CreateCurrencyTableSpec extends ExecuteSqlSpec<Void> {
+public class CreateCurrencyTableSpec extends ExecuteSqlSpec<Void>
+{
 
     private final Currency currency;
 
     @Override
-    public PreparedStatementCallback<Void> getPreparedStatementCallback() {
+    public PreparedStatementCallback<Void> getPreparedStatementCallback()
+    {
         return null;
     }
 
     @Override
-    public PreparedStatementCreator getPreparedStatementCreator() {
+    public PreparedStatementCreator getPreparedStatementCreator()
+    {
         return connection -> {
             String query = String.format(
                     "CREATE TABLE IF NOT EXISTS `%s` (`username` VARCHAR(16) PRIMARY KEY, `value` DOUBLE);",
@@ -30,4 +33,5 @@ public class CreateCurrencyTableSpec extends ExecuteSqlSpec<Void> {
             return connection.prepareStatement(query);
         };
     }
+
 }

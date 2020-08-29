@@ -1,23 +1,24 @@
 package io.github.gutyerrez.economy.command.impl;
 
-import com.google.common.primitives.Doubles;
-import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.Argument;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.command.CurrencySubCommand;
+import io.github.gutyerrez.economy.misc.utils.EconomyExecuteAction;
 import org.bukkit.command.CommandSender;
 
 /**
  * @author SrGutyerrez
  */
-public class CurrencySetSubCommand extends CurrencySubCommand {
+public class CurrencySetSubCommand extends CurrencySubCommand
+{
 
     private final Currency currency;
 
-    public CurrencySetSubCommand(Currency currency) {
+    public CurrencySetSubCommand(Currency currency)
+    {
         super(
                 "set",
                 CommandRestriction.CONSOLE_AND_IN_GAME
@@ -30,32 +31,27 @@ public class CurrencySetSubCommand extends CurrencySubCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, String[] args) {
+    public void onCommand(CommandSender sender, String[] args)
+    {
         if (!sender.hasPermission("economy.commands.money.set")) {
             return;
         }
 
-        User targetUser = CoreProvider.Cache.Local.USERS.provide().get(args[0]);
 
-        if (targetUser == null) {
-            sender.sendMessage("§cEste usuário não existe.");
-            return;
-        }
+        new EconomyExecuteAction(sender, this.currency, args)
+        {
+            @Override
+            public void execute(User targetUser, Currency currency, Double amount)
+            {
+                EconomyAPI.set(targetUser, currency, amount);
 
-        Double amount = Doubles.tryParse(args[1]);
-
-        if (amount == null || amount.isNaN() || amount < 1) {
-            sender.sendMessage("§cVocê informou um valor inválido.");
-            return;
-        }
-
-        EconomyAPI.set(targetUser, this.currency, amount);
-
-        sender.sendMessage(String.format(
-                "§aVocê definiu o saldo de §f%s §apara §f%s§a.",
-                targetUser.getName(),
-                this.currency.format(amount)
-        ));
+                sender.sendMessage(String.format(
+                        "§aVocê definiu o saldo de §f%s §apara §f%s§a.",
+                        targetUser.getName(),
+                        currency.format(amount)
+                ));
+            }
+        };
     }
 
 }

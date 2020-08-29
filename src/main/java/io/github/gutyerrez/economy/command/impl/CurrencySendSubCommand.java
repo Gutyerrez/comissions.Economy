@@ -1,15 +1,16 @@
 package io.github.gutyerrez.economy.command.impl;
 
-import com.google.common.primitives.Doubles;
 import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.Argument;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
 import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
+import io.github.gutyerrez.core.shared.misc.utils.NumberUtils;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
+import io.github.gutyerrez.economy.misc.utils.EconomyExecuteAction;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -50,54 +51,47 @@ public class CurrencySendSubCommand extends CustomCommand
             return;
         }
 
-        User targetUser = CoreProvider.Cache.Local.USERS.provide().get(targetName);
+        new EconomyExecuteAction(sender, this.currency, args)
+        {
+            @Override
+            public void execute(User targetUser, Currency currency, Double amount)
+            {
+                User user = CoreProvider.Cache.Local.USERS.provide().get(sender.getName());
 
-        if (targetUser == null) {
-            sender.sendMessage("§cEste usuário não existe.");
-            return;
-        }
+                Double coins = EconomyAPI.get(user, currency);
 
-        Double amount = Doubles.tryParse(args[1]);
+                if (coins < amount) {
+                    sender.sendMessage("§cVocê não possui coins suficientes.");
+                    return;
+                }
 
-        if (amount == null || amount.isNaN() || amount < 1) {
-            sender.sendMessage("§cVocê informou um valor inválido.");
-            return;
-        }
+                EconomyAPI.remove(user, currency, amount);
+                EconomyAPI.add(targetUser, currency, amount);
 
-        User user = CoreProvider.Cache.Local.USERS.provide().get(sender.getName());
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
-        Double coins = EconomyProvider.Repositories.ECONOMY.provide().get(user, this.currency);
+                sender.sendMessage(String.format(
+                        "§eVocê enviou §f%s §epara §f%s§e.\n ",
+                        currency.format(amount),
+                        ChatColor.translateAlternateColorCodes(
+                                '&',
+                                EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
+                        ) + offlinePlayer.getName()
+                ));
 
-        if (coins < amount) {
-            sender.sendMessage("§cVocê não possui coins suficientes.");
-            return;
-        }
+                Player targetPlayer = offlinePlayer.getPlayer();
 
-        EconomyAPI.remove(user, this.currency, amount);
-        EconomyAPI.add(targetUser, this.currency, amount);
-
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
-
-        sender.sendMessage(String.format(
-                "§eVocê enviou §f%s §epara §f%s§e.\n ",
-                this.currency.format(amount),
-                ChatColor.translateAlternateColorCodes(
-                        '&',
-                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
-                ) + offlinePlayer.getName()
-        ));
-
-        Player targetPlayer = offlinePlayer.getPlayer();
-
-        if (targetPlayer != null) {
-            sender.sendMessage(String.format(
-                    "§eVocê recebeu §f%s §ede §f%s§e.\n ",
-                    this.currency.format(amount),
-                    ChatColor.translateAlternateColorCodes(
-                            '&',
-                            EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", (Player) sender)
-                    ) + sender.getName()
-            ));
-        }
+                if (targetPlayer != null) {
+                    sender.sendMessage(String.format(
+                            "§eVocê recebeu §f%s §ede §f%s§e.\n ",
+                            currency.format(amount),
+                            ChatColor.translateAlternateColorCodes(
+                                    '&',
+                                    EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", (Player) sender)
+                            ) + sender.getName()
+                    ));
+                }
+            }
+        };
     }
 }
