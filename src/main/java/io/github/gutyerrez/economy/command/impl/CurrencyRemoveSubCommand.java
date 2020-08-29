@@ -4,8 +4,6 @@ import com.google.common.primitives.Doubles;
 import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.Argument;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
-import io.github.gutyerrez.core.shared.commands.GroupCommandRestrictable;
-import io.github.gutyerrez.core.shared.group.Group;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;

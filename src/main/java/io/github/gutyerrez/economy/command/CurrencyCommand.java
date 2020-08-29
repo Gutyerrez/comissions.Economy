@@ -18,11 +18,13 @@ import org.bukkit.entity.Player;
 /**
  * @author SrGutyerrez
  */
-public class CurrencyCommand extends CustomCommand {
+public class CurrencyCommand extends CustomCommand
+{
 
     private final Currency currency;
 
-    public CurrencyCommand(Currency currency) {
+    public CurrencyCommand(Currency currency)
+    {
         super(
                 currency.getCommandName(),
                 CommandRestriction.CONSOLE_AND_IN_GAME,
@@ -39,7 +41,8 @@ public class CurrencyCommand extends CustomCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, String[] args) {
+    public void onCommand(CommandSender sender, String[] args)
+    {
         if (sender instanceof ConsoleCommandSender) {
             return;
         }
@@ -60,20 +63,16 @@ public class CurrencyCommand extends CustomCommand {
                 return;
             }
 
-            Bukkit.getScheduler().runTaskAsynchronously(
-                    EconomyPlugin.getInstance(),
-                    () -> {
-                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
-                        sender.sendMessage(String.format(
-                                "§eO saldo de §f%s§e é §f%s",
-                                ChatColor.translateAlternateColorCodes(
-                                        '&',
-                                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", targetName)
-                                ) + offlinePlayer.getName(),
-                                this.currency.format(coins)
-                        ));
-                    });
+            sender.sendMessage(String.format(
+                    "§eO saldo de §f%s§e é §f%s",
+                    ChatColor.translateAlternateColorCodes(
+                            '&',
+                            EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
+                    ) + offlinePlayer.getName(),
+                    this.currency.format(coins)
+            ));
             return;
         }
 

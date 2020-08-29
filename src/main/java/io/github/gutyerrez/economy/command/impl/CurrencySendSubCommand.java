@@ -9,7 +9,6 @@ import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
-import io.github.gutyerrez.economy.EconomyPlugin;
 import io.github.gutyerrez.economy.EconomyProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -20,11 +19,13 @@ import org.bukkit.entity.Player;
 /**
  * @author SrGutyerrez
  */
-public class CurrencySendSubCommand extends CustomCommand {
+public class CurrencySendSubCommand extends CustomCommand
+{
 
     private final Currency currency;
 
-    public CurrencySendSubCommand(Currency currency) {
+    public CurrencySendSubCommand(Currency currency)
+    {
         super(
                 "pay",
                 CommandRestriction.IN_GAME,
@@ -38,7 +39,8 @@ public class CurrencySendSubCommand extends CustomCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, String[] args) {
+    public void onCommand(CommandSender sender, String[] args)
+    {
         Player player = (Player) sender;
         String targetName = args[0];
 
@@ -74,32 +76,28 @@ public class CurrencySendSubCommand extends CustomCommand {
         EconomyAPI.remove(user, this.currency, amount);
         EconomyAPI.add(targetUser, this.currency, amount);
 
-        Bukkit.getScheduler().runTaskAsynchronously(
-                EconomyPlugin.getInstance(),
-                () -> {
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
-                    sender.sendMessage(String.format(
-                            "§eVocê enviou §f%s §epara §f%s§e.\n ",
-                            this.currency.format(amount),
-                            ChatColor.translateAlternateColorCodes(
-                                    '&',
-                                    EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", targetName)
-                            ) + offlinePlayer.getName()
-                    ));
+        sender.sendMessage(String.format(
+                "§eVocê enviou §f%s §epara §f%s§e.\n ",
+                this.currency.format(amount),
+                ChatColor.translateAlternateColorCodes(
+                        '&',
+                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
+                ) + offlinePlayer.getName()
+        ));
 
-                    Player targetPlayer = offlinePlayer.getPlayer();
+        Player targetPlayer = offlinePlayer.getPlayer();
 
-                    if (targetPlayer != null) {
-                        sender.sendMessage(String.format(
-                                "§eVocê recebeu §f%s §ede §f%s§e.\n ",
-                                this.currency.format(amount),
-                                ChatColor.translateAlternateColorCodes(
-                                        '&',
-                                        EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", sender.getName())
-                                ) + sender.getName()
-                        ));
-                    }
-                });
+        if (targetPlayer != null) {
+            sender.sendMessage(String.format(
+                    "§eVocê recebeu §f%s §ede §f%s§e.\n ",
+                    this.currency.format(amount),
+                    ChatColor.translateAlternateColorCodes(
+                            '&',
+                            EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", (Player) sender)
+                    ) + sender.getName()
+            ));
+        }
     }
 }

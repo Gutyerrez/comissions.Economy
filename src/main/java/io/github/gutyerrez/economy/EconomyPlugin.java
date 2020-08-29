@@ -22,6 +22,8 @@ public class EconomyPlugin extends CustomPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         EconomyProvider.prepare();
 
         CommandRegistry.registerCommand(new CurrencyCommand(Currency.COINS));
