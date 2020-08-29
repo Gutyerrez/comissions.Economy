@@ -1,10 +1,8 @@
 package io.github.gutyerrez.economy.misc.utils;
 
 import io.github.gutyerrez.core.shared.CoreProvider;
-import io.github.gutyerrez.core.shared.misc.utils.NumberUtils;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
@@ -27,9 +25,13 @@ public abstract class EconomyExecuteAction
             this.canBeExecuted = false;
         }
 
-        BigDecimal amount = new BigDecimal(args[1]);
+        BigDecimal amount = null;
 
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+        try {
+             amount = new BigDecimal(args[1]);
+        } catch (Exception ignored) { }
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
             sender.sendMessage("§cVocê informou um valor inválido.");
 
             this.canBeExecuted = false;
