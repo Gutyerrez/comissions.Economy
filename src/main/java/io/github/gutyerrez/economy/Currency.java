@@ -21,8 +21,8 @@ public enum Currency
             new String[]{
                     "coins"
             },
-            "Coin",
-            "Coins",
+            "de coin",
+            "de coins",
             ChatColor.YELLOW
     );
 

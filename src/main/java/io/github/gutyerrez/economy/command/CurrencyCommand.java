@@ -68,7 +68,7 @@ public class CurrencyCommand extends CustomCommand
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
             sender.sendMessage(String.format(
-                    "§eO saldo de §f%s§e é §f%s",
+                    "§aCoins de §f%s: §7%s.",
                     ChatColor.translateAlternateColorCodes(
                             '&',
                             EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world", offlinePlayer)
@@ -83,7 +83,7 @@ public class CurrencyCommand extends CustomCommand
 
         BigDecimal coins = EconomyAPI.get(user, this.currency);
 
-        sender.sendMessage("§eSeu saldo é §f" + this.currency.format(coins));
+        sender.sendMessage("§aSeus coins §7" + this.currency.format(coins) + ".");
     }
 
 }

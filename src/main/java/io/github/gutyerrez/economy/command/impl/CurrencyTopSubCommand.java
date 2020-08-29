@@ -54,7 +54,9 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
         StringBuilder message = new StringBuilder();
 
         message.append("\n")
-                .append("§2Top 10 jogadores mais ricos")
+                .append("§e§l MONEY TOP §r§7(Atualiza a cada 5 minutos)")
+                .append("\n")
+                .append("§f Jogadores mais ricos do servidor.")
                 .append("\n \n");
 
         AtomicInteger count = new AtomicInteger(1);
@@ -63,7 +65,7 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
 
             message.append(String.format(
-                    "  §f%sº §7%s: §7%s\n",
+                    "  §a%sº §7%s §7%s\n",
                     count.getAndIncrement(),
                     (count.get() == 2 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
                             '&',
