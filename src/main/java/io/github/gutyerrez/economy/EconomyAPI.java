@@ -21,7 +21,16 @@ public class EconomyAPI
     public static void add(User user, Currency currency, BigDecimal value)
     {
         BigDecimal balance = EconomyAPI.get(user, currency);
-        BigDecimal newValue = EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);
+
+        BigDecimal newValue = EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.add(value));
+        EconomyProvider.Cache.Local.CURRENCY.provide().add(
+                user.getUniqueId(),
+                currency,
+                EconomyAPI.get(
+                        user,
+                        currency
+                ).add(value)
+        );
 
         Player player = Bukkit.getPlayerExact(user.getName());
 
@@ -82,10 +91,7 @@ public class EconomyAPI
         EconomyProvider.Cache.Local.CURRENCY.provide().add(
                 user.getUniqueId(),
                 currency,
-                EconomyAPI.get(
-                        user,
-                        currency
-                ).add(newValue)
+                value
         );
 
         Player player = Bukkit.getPlayerExact(user.getName());

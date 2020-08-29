@@ -35,6 +35,10 @@ public enum Currency
 
     public String format(BigDecimal v)
     {
+        if (v == null) {
+            return "0" + this.singular;
+        }
+
         if (EconomyPlugin.getInstance().getConfig().getBoolean("settings.enabled_k_format")) {
             return String.format("%s %s", NumberUtils.toK(v), (v.compareTo(BigDecimal.ONE) > 0 ? this.plural : this.singular));
         } else {

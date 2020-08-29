@@ -19,7 +19,7 @@ public class CurrencyLocalCache implements LocalCache
 
     public BigDecimal get(UUID uuid, Currency currency)
     {
-        if (this.CACHE.containsColumn(uuid)) {
+        if (this.CACHE.containsRow(uuid)) {
             return this.CACHE.get(uuid, currency);
         } else {
             return EconomyProvider.Repositories.ECONOMY.provide().get(

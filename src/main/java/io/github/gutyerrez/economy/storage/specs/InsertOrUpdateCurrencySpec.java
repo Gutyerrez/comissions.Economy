@@ -26,8 +26,8 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
     @Override
     public BigDecimal parser(int affectedRows, ResultSet keyHolder) throws SQLException
     {
-        if (affectedRows != 1) {
-            throw new NullPointerException("Cannot retrieve the new value");
+        if (affectedRows == 0) {
+            return this.value;
         }
 
         return keyHolder.getBigDecimal("value");
@@ -38,7 +38,7 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
     {
         return connection -> {
             String query = String.format(
-                    "INSERT INTO `%s` (`username`,`value`) VALUES (?,?) ON DUPLICATE KEY UPDATE `value`=`value` + ?;",
+                    "INSERT INTO `%s` (`username`,`value`) VALUES (?,?) ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);",
                     this.currency.getTableName()
             );
 
@@ -49,7 +49,6 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
 
             preparedStatement.setString(1, this.user.getName().toLowerCase());
             preparedStatement.setBigDecimal(2, this.value);
-            preparedStatement.setBigDecimal(3, this.value);
 
             return preparedStatement;
         };
