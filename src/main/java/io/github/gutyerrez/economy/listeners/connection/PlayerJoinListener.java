@@ -10,6 +10,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.math.BigDecimal;
+
 /**
  * @author SrGutyerrez
  */
@@ -26,13 +28,15 @@ public class PlayerJoinListener implements Listener
                 player.getName()
         );
 
+        BigDecimal value = EconomyProvider.Repositories.ECONOMY.provide().get(
+                user,
+                Currency.COINS
+        );
+
         EconomyProvider.Cache.Local.CURRENCY.provide().add(
                 user.getUniqueId(),
                 Currency.COINS,
-                EconomyProvider.Repositories.ECONOMY.provide().get(
-                        user,
-                        Currency.COINS
-                )
+                value == null ? BigDecimal.ZERO : value
         );
     }
 

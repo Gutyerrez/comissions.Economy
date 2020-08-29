@@ -7,22 +7,23 @@ import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 
 /**
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class SelectCurrencySpec extends SelectSqlSpec<Double>
+public class SelectCurrencySpec extends SelectSqlSpec<BigDecimal>
 {
 
     private final User user;
     private final Currency currency;
 
     @Override
-    public ResultSetExtractor<Double> getResultSetExtractor()
+    public ResultSetExtractor<BigDecimal> getResultSetExtractor()
     {
-        return resultSet -> resultSet.next() ? resultSet.getDouble("value") : null;
+        return resultSet -> resultSet.next() ? resultSet.getBigDecimal("value") : null;
     }
 
     @Override

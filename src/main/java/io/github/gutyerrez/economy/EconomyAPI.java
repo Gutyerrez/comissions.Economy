@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 /**
  * @author SrGutyerrez
  */
@@ -16,10 +18,10 @@ public class EconomyAPI
 
     public static String MAGNATA_USERNAME = "";
 
-    public static void add(User user, Currency currency, Double value)
+    public static void add(User user, Currency currency, BigDecimal value)
     {
-        Double balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
-        Double newValue = EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);
+        BigDecimal balance = EconomyAPI.get(user, currency);
+        BigDecimal newValue = EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, value);
 
         Player player = Bukkit.getPlayerExact(user.getName());
 
@@ -33,12 +35,12 @@ public class EconomyAPI
         Bukkit.getPluginManager().callEvent(currencyChangeEvent);
     }
 
-    public static boolean remove(User user, Currency currency, Double value)
+    public static boolean remove(User user, Currency currency, BigDecimal value)
     {
-        Double balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
+        BigDecimal balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
 
-        if (balance != null && balance > 0 && !value.isInfinite() && !value.isNaN() && balance >= value) {
-            Double newValue = (balance - value) <= 0 ? balance : value;
+        if (balance != null && balance.compareTo(BigDecimal.ZERO) > 0 && balance.compareTo(value) > 0) {
+            BigDecimal newValue = balance.subtract(value.compareTo(BigDecimal.ZERO) > 0 ? balance : value);
 
             Player player = Bukkit.getPlayerExact(user.getName());
 
@@ -51,23 +53,40 @@ public class EconomyAPI
 
             Bukkit.getPluginManager().callEvent(currencyChangeEvent);
 
-            EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, -newValue);
+            EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, balance.subtract(newValue));
+            EconomyProvider.Cache.Local.CURRENCY.provide().add(
+                    user.getUniqueId(),
+                    currency,
+                    EconomyAPI.get(
+                            user,
+                            currency
+                    ).subtract(newValue)
+            );
             return true;
         }
 
         return false;
     }
 
-    public static void set(User user, Currency currency, Double value)
+    public static void set(User user, Currency currency, BigDecimal value)
     {
-        Double balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
+        BigDecimal balance = EconomyProvider.Repositories.ECONOMY.provide().get(user, currency);
 
         if (balance == null) {
-            balance = 0.0;
+            balance = BigDecimal.ZERO;
         }
 
-        double newValue = balance < value ? (value - balance) : -(balance - value);
+        BigDecimal newValue = balance.compareTo(value) < 0 ? (value.subtract(balance)) : balance.subtract(value);
+
         EconomyProvider.Repositories.ECONOMY.provide().update(user, currency, newValue);
+        EconomyProvider.Cache.Local.CURRENCY.provide().add(
+                user.getUniqueId(),
+                currency,
+                EconomyAPI.get(
+                        user,
+                        currency
+                ).add(newValue)
+        );
 
         Player player = Bukkit.getPlayerExact(user.getName());
 
@@ -81,7 +100,7 @@ public class EconomyAPI
         Bukkit.getPluginManager().callEvent(currencyChangeEvent);
     }
 
-    public static Double get(User user, Currency currency)
+    public static BigDecimal get(User user, Currency currency)
     {
         return EconomyProvider.Cache.Local.CURRENCY.provide().get(user.getUniqueId(), currency);
     }

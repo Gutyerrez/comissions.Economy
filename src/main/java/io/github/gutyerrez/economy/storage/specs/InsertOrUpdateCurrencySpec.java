@@ -6,6 +6,7 @@ import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,21 +16,21 @@ import java.sql.Statement;
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double>
+public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<BigDecimal>
 {
 
     private final User user;
     private final Currency currency;
-    private final Double value;
+    private final BigDecimal value;
 
     @Override
-    public Double parser(int affectedRows, ResultSet keyHolder) throws SQLException
+    public BigDecimal parser(int affectedRows, ResultSet keyHolder) throws SQLException
     {
         if (affectedRows != 1) {
             throw new NullPointerException("Cannot retrieve the new value");
         }
 
-        return keyHolder.getDouble("value");
+        return keyHolder.getBigDecimal("value");
     }
 
     @Override
@@ -47,8 +48,8 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Double>
             );
 
             preparedStatement.setString(1, this.user.getName().toLowerCase());
-            preparedStatement.setDouble(2, this.value);
-            preparedStatement.setDouble(3, this.value);
+            preparedStatement.setBigDecimal(2, this.value);
+            preparedStatement.setBigDecimal(3, this.value);
 
             return preparedStatement;
         };

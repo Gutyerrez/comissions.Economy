@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import java.math.BigDecimal;
+
 /**
  * @author SrGutyerrez
  */
@@ -20,8 +22,8 @@ public class CurrencyChangeEvent extends Event
 
     private final Player player;
     private final Currency currency;
-    private final Double oldValue;
-    private final Double newValue;
+    private final BigDecimal oldValue;
+    private final BigDecimal newValue;
 
     @Override
     public HandlerList getHandlers()

@@ -9,6 +9,8 @@ import io.github.gutyerrez.economy.command.CurrencySubCommand;
 import io.github.gutyerrez.economy.misc.utils.EconomyExecuteAction;
 import org.bukkit.command.CommandSender;
 
+import java.math.BigDecimal;
+
 /**
  * @author SrGutyerrez
  */
@@ -41,7 +43,7 @@ public class CurrencySetSubCommand extends CurrencySubCommand
         new EconomyExecuteAction(sender, this.currency, args)
         {
             @Override
-            public void execute(User targetUser, Currency currency, Double amount)
+            public void execute(User targetUser, Currency currency, BigDecimal amount)
             {
                 EconomyAPI.set(targetUser, currency, amount);
 

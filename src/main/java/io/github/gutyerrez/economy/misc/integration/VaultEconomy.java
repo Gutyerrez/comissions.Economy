@@ -10,6 +10,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -89,9 +90,9 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        Double value = EconomyAPI.get(user, Currency.COINS);
+        BigDecimal value = EconomyAPI.get(user, Currency.COINS);
 
-        return value == null ? 0.0 : value;
+        return (value == null ? BigDecimal.ZERO : value).doubleValue();
     }
 
     @Override
@@ -99,9 +100,9 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        Double value = EconomyAPI.get(user, Currency.COINS);
+        BigDecimal value = EconomyAPI.get(user, Currency.COINS);
 
-        return value == null ? 0.0 : value;
+        return (value == null ? BigDecimal.ZERO : value).doubleValue();
     }
 
     @Override
@@ -109,9 +110,9 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        Double value = EconomyAPI.get(user, Currency.COINS);
+        BigDecimal value = EconomyAPI.get(user, Currency.COINS);
 
-        return value == null ? 0.0 : value;
+        return (value == null ? BigDecimal.ZERO : value).doubleValue();
     }
 
     @Override
@@ -119,9 +120,9 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        Double value = EconomyAPI.get(user, Currency.COINS);
+        BigDecimal value = EconomyAPI.get(user, Currency.COINS);
 
-        return value == null ? 0.0 : value;
+        return (value == null ? BigDecimal.ZERO : value).doubleValue();
     }
 
     @Override
@@ -153,7 +154,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+        if (EconomyAPI.remove(user, Currency.COINS, new BigDecimal(v))) {
             return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
         }
 
@@ -165,7 +166,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+        if (EconomyAPI.remove(user, Currency.COINS, new BigDecimal(v))) {
             return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
         }
 
@@ -177,7 +178,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+        if (EconomyAPI.remove(user, Currency.COINS, new BigDecimal(v))) {
             return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
         }
 
@@ -189,7 +190,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        if (EconomyAPI.remove(user, Currency.COINS, v)) {
+        if (EconomyAPI.remove(user, Currency.COINS, new BigDecimal(v))) {
             return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
         }
 
@@ -201,7 +202,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        EconomyAPI.add(user, Currency.COINS, v);
+        EconomyAPI.add(user, Currency.COINS, new BigDecimal(v));
 
         return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -211,7 +212,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        EconomyAPI.add(user, Currency.COINS, v);
+        EconomyAPI.add(user, Currency.COINS, new BigDecimal(v));
 
         return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -221,7 +222,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(s);
 
-        EconomyAPI.add(user, Currency.COINS, v);
+        EconomyAPI.add(user, Currency.COINS, new BigDecimal(v));
 
         return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -231,7 +232,7 @@ public class VaultEconomy implements Economy
     {
         User user = CoreProvider.Cache.Local.USERS.provide().get(offlinePlayer.getName());
 
-        EconomyAPI.add(user, Currency.COINS, v);
+        EconomyAPI.add(user, Currency.COINS, new BigDecimal(v));
 
         return new EconomyResponse(v, v, EconomyResponse.ResponseType.SUCCESS, null);
     }

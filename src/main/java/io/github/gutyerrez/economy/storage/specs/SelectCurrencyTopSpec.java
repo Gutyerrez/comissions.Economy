@@ -7,27 +7,28 @@ import io.github.gutyerrez.core.shared.storage.repositories.specs.SelectSqlSpec;
 import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 /**
  * @author SrGutyerrez
  */
 @RequiredArgsConstructor
-public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, Double>>
+public class SelectCurrencyTopSpec extends SelectSqlSpec<LinkedHashMap<String, BigDecimal>>
 {
 
     private final Currency currency;
 
     @Override
-    public ResultSetExtractor<LinkedHashMap<String, Double>> getResultSetExtractor()
+    public ResultSetExtractor<LinkedHashMap<String, BigDecimal>> getResultSetExtractor()
     {
         return resultSet -> {
-            LinkedHashMap<String, Double> out = Maps.newLinkedHashMap();
+            LinkedHashMap<String, BigDecimal> out = Maps.newLinkedHashMap();
 
             while (resultSet.next()) {
                 out.put(
                         resultSet.getString("username"),
-                        resultSet.getDouble("value")
+                        resultSet.getBigDecimal("value")
                 );
             }
 

@@ -4,7 +4,6 @@ import io.github.gutyerrez.core.shared.CoreProvider;
 import io.github.gutyerrez.core.shared.commands.Argument;
 import io.github.gutyerrez.core.shared.commands.CommandRestriction;
 import io.github.gutyerrez.core.shared.misc.utils.ChatColor;
-import io.github.gutyerrez.core.shared.misc.utils.NumberUtils;
 import io.github.gutyerrez.core.shared.user.User;
 import io.github.gutyerrez.core.spigot.commands.CustomCommand;
 import io.github.gutyerrez.economy.Currency;
@@ -16,6 +15,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
 
 /**
  * @author SrGutyerrez
@@ -54,13 +55,13 @@ public class CurrencySendSubCommand extends CustomCommand
         new EconomyExecuteAction(sender, this.currency, args)
         {
             @Override
-            public void execute(User targetUser, Currency currency, Double amount)
+            public void execute(User targetUser, Currency currency, BigDecimal amount)
             {
                 User user = CoreProvider.Cache.Local.USERS.provide().get(sender.getName());
 
-                Double coins = EconomyAPI.get(user, currency);
+                BigDecimal coins = EconomyAPI.get(user, currency);
 
-                if (coins < amount) {
+                if (coins.compareTo(amount) < 0) {
                     sender.sendMessage("§cVocê não possui coins suficientes.");
                     return;
                 }

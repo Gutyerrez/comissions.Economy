@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,7 +23,7 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
 {
 
     private final Currency currency;
-    private final LinkedHashMap<String, Double> top = Maps.newLinkedHashMap();
+    private final LinkedHashMap<String, BigDecimal> top = Maps.newLinkedHashMap();
 
     private Long cooldown;
 

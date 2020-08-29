@@ -26,7 +26,7 @@ public class CreateCurrencyTableSpec extends ExecuteSqlSpec<Void>
     {
         return connection -> {
             String query = String.format(
-                    "CREATE TABLE IF NOT EXISTS `%s` (`username` VARCHAR(16) PRIMARY KEY, `value` DOUBLE);",
+                    "CREATE TABLE IF NOT EXISTS `%s` (`username` VARCHAR(16) PRIMARY KEY, `value` DECIMAL);",
                     this.currency.getTableName()
             );
 

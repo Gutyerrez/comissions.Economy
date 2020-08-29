@@ -7,6 +7,8 @@ import io.github.gutyerrez.economy.Currency;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
+import java.math.BigDecimal;
+
 /**
  * @author SrGutyerrez
  */
@@ -25,9 +27,9 @@ public abstract class EconomyExecuteAction
             this.canBeExecuted = false;
         }
 
-        Double amount = NumberUtils.fromK(args[1]);
+        BigDecimal amount = new BigDecimal(args[1]);
 
-        if (amount == null || amount.isNaN() || amount < 1) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             sender.sendMessage("§cVocê informou um valor inválido.");
 
             this.canBeExecuted = false;
@@ -38,13 +40,13 @@ public abstract class EconomyExecuteAction
         this.executeRaw(targetUser, currency, amount);
     }
 
-    public final void executeRaw(User targetUser, Currency currency, Double amount)
+    public final void executeRaw(User targetUser, Currency currency, BigDecimal amount)
     {
         if (this.canBeExecuted) {
             this.execute(targetUser, currency, amount);
         }
     }
 
-    public abstract void execute(User targetUser, Currency currency, Double amount);
+    public abstract void execute(User targetUser, Currency currency, BigDecimal amount);
 
 }

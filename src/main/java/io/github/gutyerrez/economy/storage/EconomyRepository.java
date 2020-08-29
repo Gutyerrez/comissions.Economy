@@ -9,6 +9,7 @@ import io.github.gutyerrez.economy.storage.specs.InsertOrUpdateCurrencySpec;
 import io.github.gutyerrez.economy.storage.specs.SelectCurrencySpec;
 import io.github.gutyerrez.economy.storage.specs.SelectCurrencyTopSpec;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
@@ -32,17 +33,17 @@ public class EconomyRepository extends MysqlRepository
         this.query(new CreateCurrencyTableSpec(currency));
     }
 
-    public Double get(User user, Currency currency)
+    public BigDecimal get(User user, Currency currency)
     {
         return query(new SelectCurrencySpec(user, currency));
     }
 
-    public Double update(User user, Currency currency, Double value)
+    public BigDecimal update(User user, Currency currency, BigDecimal value)
     {
         return this.query(new InsertOrUpdateCurrencySpec(user, currency, value));
     }
 
-    public LinkedHashMap<String, Double> fetchTop(Currency currency)
+    public LinkedHashMap<String, BigDecimal> fetchTop(Currency currency)
     {
         return this.query(new SelectCurrencyTopSpec(currency));
     }
