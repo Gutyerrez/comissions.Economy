@@ -9,6 +9,7 @@ import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.impl.*;
+import net.luckperms.api.node.ChatMetaType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -63,14 +64,15 @@ public class CurrencyCommand extends CustomCommand
                 return;
             }
 
-            net.luckperms.api.model.user.User _targetUser = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(targetName);
-
             sender.sendMessage(String.format(
                     "§aCoins de §f%s: §7%s.",
                     ChatColor.translateAlternateColorCodes(
                             '&',
-                            _targetUser.getCachedData().getMetaData().getPrefix()
-                    ) + _targetUser.getUsername(),
+                            EconomyProvider.Hooks.CHAT.getChatMeta(
+                                    targetName,
+                                    ChatMetaType.PREFIX
+                            )
+                    ) + targetName,
                     this.currency.format(coins)
             ));
             return;

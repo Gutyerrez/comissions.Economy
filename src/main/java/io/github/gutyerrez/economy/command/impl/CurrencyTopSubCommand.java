@@ -9,12 +9,12 @@ import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.command.CurrencySubCommand;
 import net.luckperms.api.model.user.User;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import net.luckperms.api.node.ChatMetaType;
 import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -62,19 +62,39 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
 
         AtomicInteger count = new AtomicInteger(1);
 
-        this.top.forEach((username, value) -> {
-            User user = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(username);
+        this.top.entrySet()
+                .stream()
+                .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
+                .forEach(entry -> {
+                    User user = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(
+                            entry.getKey()
+                    );
 
-            message.append(String.format(
-                    "  §a%sº §7%s §7%s\n",
-                    count.getAndIncrement(),
-                    (count.get() == 2 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
-                            '&',
-                            user.getCachedData().getMetaData().getPrefix()
-                    ) + user.getUsername(),
-                    this.currency.format(value)
-            ));
-        });
+                    if (user == null) {
+                        try {
+                            user = EconomyProvider.Hooks.CHAT.get().getUserManager().loadUser(
+                                    EconomyProvider.Hooks.CHAT.get().getUserManager().lookupUniqueId(
+                                            entry.getKey()
+                                    ).get()
+                            ).get();
+                        } catch (InterruptedException | ExecutionException exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+
+                    message.append(String.format(
+                            "  §a%sº §7%s §7%s\n",
+                            count.getAndIncrement(),
+                            (count.get() == 2 ? "§2[$] " : "") + ChatColor.translateAlternateColorCodes(
+                                    '&',
+                                    EconomyProvider.Hooks.CHAT.getChatMeta(
+                                            user.getUsername(),
+                                            ChatMetaType.PREFIX
+                                    )
+                            ) + entry.getKey(),
+                            this.currency.format(entry.getValue())
+                    ));
+                });
 
         message.append("\n ");
 

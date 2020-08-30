@@ -40,5 +40,11 @@
             <version>5.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- legend chat -->
+        <dependency>
+            <groupId>br.com.devpaulo</groupId>
+            <artifactId>LegendChat</artifactId>
+            <version>1.1.3</version>
+        </dependency>
     </dependencies>
 </project>

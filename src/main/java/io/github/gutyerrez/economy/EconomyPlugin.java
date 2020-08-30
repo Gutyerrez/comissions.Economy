@@ -3,6 +3,7 @@ package io.github.gutyerrez.economy;
 import io.github.gutyerrez.core.spigot.CustomPlugin;
 import io.github.gutyerrez.core.spigot.commands.CommandRegistry;
 import io.github.gutyerrez.economy.command.CurrencyCommand;
+import io.github.gutyerrez.economy.listeners.ChatMessageListener;
 import io.github.gutyerrez.economy.listeners.connection.PlayerJoinListener;
 import io.github.gutyerrez.economy.misc.integration.VaultEconomy;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class EconomyPlugin extends CustomPlugin
         PluginManager pluginManager = Bukkit.getPluginManager();
 
         pluginManager.registerEvents(new PlayerJoinListener(), this);
+        pluginManager.registerEvents(new ChatMessageListener(), this);
 
         this.getServer().getServicesManager().register(
                 Economy.class,

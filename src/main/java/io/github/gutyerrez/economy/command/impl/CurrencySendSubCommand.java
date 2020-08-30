@@ -10,6 +10,7 @@ import io.github.gutyerrez.economy.Currency;
 import io.github.gutyerrez.economy.EconomyAPI;
 import io.github.gutyerrez.economy.EconomyProvider;
 import io.github.gutyerrez.economy.misc.utils.EconomyExecuteAction;
+import net.luckperms.api.node.ChatMetaType;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -69,18 +70,17 @@ public class CurrencySendSubCommand extends CustomCommand
                 EconomyAPI.remove(user, currency, amount);
                 EconomyAPI.add(targetUser, currency, amount);
 
-                net.luckperms.api.model.user.User _targetUser = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(targetName);
-
                 sender.sendMessage(String.format(
                         "§eVocê enviou §f%s §epara §f%s§e.",
                         currency.format(amount),
                         ChatColor.translateAlternateColorCodes(
                                 '&',
-                                _targetUser.getCachedData().getMetaData().getPrefix()
-                        ) + _targetUser.getUsername()
+                                EconomyProvider.Hooks.CHAT.getChatMeta(
+                                        targetName,
+                                        ChatMetaType.PREFIX
+                                )
+                        ) + targetName
                 ));
-
-                net.luckperms.api.model.user.User _user = EconomyProvider.Hooks.CHAT.get().getUserManager().getUser(sender.getName());
 
                 Player targetPlayer = Bukkit.getPlayerExact(targetName);
 
@@ -90,7 +90,10 @@ public class CurrencySendSubCommand extends CustomCommand
                             currency.format(amount),
                             ChatColor.translateAlternateColorCodes(
                                     '&',
-                                    _user.getCachedData().getMetaData().getPrefix()
+                                    EconomyProvider.Hooks.CHAT.getChatMeta(
+                                            sender.getName(),
+                                            ChatMetaType.PREFIX
+                                    )
                             ) + sender.getName()
                     ));
                 }

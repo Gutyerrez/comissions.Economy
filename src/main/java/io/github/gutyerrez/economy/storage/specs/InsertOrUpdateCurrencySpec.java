@@ -43,7 +43,7 @@ public class InsertOrUpdateCurrencySpec extends InsertSqlSpec<Void>
                     Statement.RETURN_GENERATED_KEYS
             );
 
-            preparedStatement.setString(1, this.user.getName().toLowerCase());
+            preparedStatement.setString(1, this.user.getName());
             preparedStatement.setString(2, this.value.toString());
 
             return preparedStatement;

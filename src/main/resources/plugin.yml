@@ -5,4 +5,6 @@ author: Gutyerrez
 load: STARTUP
 depend:
   - Core
-  - Vault
+  - LuckPerms
+softdepend:
+  - LegendChat
