@@ -2,7 +2,6 @@ package io.github.gutyerrez.economy.listeners;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import io.github.gutyerrez.economy.EconomyAPI;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,17 +23,7 @@ public class ChatMessageListener implements Listener
             magnataTag = "§2[$]";
         }
 
-        event.setFormat(
-                StringUtils.replaceEach(
-                        event.getFormat(),
-                        new String[] {
-                                "{magnata}"
-                        },
-                        new String[] {
-                                magnataTag
-                        }
-                )
-        );
+        event.setTagValue("{magnata}", magnataTag);
     }
 
 }
