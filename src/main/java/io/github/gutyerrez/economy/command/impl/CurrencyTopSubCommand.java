@@ -14,8 +14,10 @@ import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 /**
  * @author SrGutyerrez
@@ -43,7 +45,6 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
     {
         if (this.cooldown == null || this.cooldown < System.currentTimeMillis()) {
             this.top.clear();
-            ;
             this.top.putAll(EconomyProvider.Repositories.ECONOMY.provide().fetchTop(this.currency));
             this.cooldown = System.currentTimeMillis() + 5000L;
 
@@ -62,7 +63,19 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
 
         AtomicInteger count = new AtomicInteger(1);
 
-        this.top.entrySet()
+        this.top.forEach((name, value) -> {
+
+            String prefix = CompletableFuture.supplyAsync(supplyPrefix(name)).join();
+
+            message.append(String.format(
+                    "  §a%sº §7%s §7%s\n",
+                    count.getAndIncrement(),
+                    (count.get() == 2 ? "§2[$] " : "") + prefix + name,
+                    this.currency.format(value)
+            ));
+        });
+
+        /*this.top.entrySet()
                 .stream()
                 .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
                 .forEach(entry -> {
@@ -95,10 +108,18 @@ public class CurrencyTopSubCommand extends CurrencySubCommand
                             this.currency.format(entry.getValue())
                     ));
                 });
+         */
 
         message.append("\n ");
 
         sender.sendMessage(message.toString());
+    }
+
+    private Supplier<String> supplyPrefix(String name) {
+        return () -> ChatColor.translateAlternateColorCodes(
+                '&', EconomyProvider.Hooks.CHAT.get().getPlayerPrefix("world",
+                        Bukkit.getOfflinePlayer(name))
+        );
     }
 
 }
